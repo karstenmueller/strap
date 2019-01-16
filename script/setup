@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# get environment variables stored privately
+[[ ! -f ~/.dotfile.env ]] && source ~/.dotfile.env
+
+# suppress shell login message
+[[ ! -f ~/.hushlogin ]] && touch ~/.hushlogin
+
+if [ "X$DOTFILE_CONFIG" == "X" ]; then
+  echo "Variable \$DOTFILE_CONFIG not set! Setup your environment for $0 first"
+  echo "Create ~/.dotfile.env from ~/.dotfile.env.template"
+  exit 1
+fi
+
+# work it
+sed -i"" "s/<DOTFILE_EMAIL>/$DOTFILE_EMAIL/g" ~/.gitconfig
+sed -i"" "s/<DOTFILE_BACKUPDIR>/$DOTFILE_BACKUPDIR/g" .install/env.sh
